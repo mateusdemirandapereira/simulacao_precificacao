@@ -1,0 +1,285 @@
+/* =========================
+ESTRUTURA DA PÁGINA (Ajustado para Footer Fixo)
+========================= */
+.pagina {
+  min-height: 100vh;
+  background-color: #f4f7fb;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  display: flex;
+  flex-direction: column; /* Organiza o conteúdo e o footer em coluna */
+}
+
+/* Novo container para agrupar tudo exceto o footer */
+.conteudo-wrapper {
+  flex: 1; /* Empurra o footer para o final da página */
+  padding-bottom: 30px;
+}
+
+/* =========================
+CABEÇALHO
+========================= */
+.cabecalho {
+  background: #1565c0;
+  color: white;
+  padding: 24px 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  /* Removemos larguras e margens fixas. Ele vai herdar o tamanho do pai automaticamente */
+  margin: 0 0 24px 0; /* Apenas 24px de margem na parte de baixo */
+  width: auto; 
+  border-radius: 8px; /* Opcional: deixa o cabeçalho desenhado como os cards */
+}
+
+.cabecalho h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.cabecalho p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* =========================
+CARD DE FILTROS
+========================= */
+.filtros-card {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  /* Zera as laterais, mantém apenas 24px embaixo para separar da tabela */
+  margin: 0 0 24px 0; 
+}
+
+.secao-titulo {
+  margin-bottom: 20px;
+}
+
+.secao-titulo h2 {
+  margin: 0;
+  color: #1565c0;
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.secao-titulo span {
+  display: block;
+  margin-top: 5px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* =========================
+FORMULÁRIO
+========================= */
+.form-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+
+/* =========================
+BOTÕES E AÇÕES (Corrigido flex-wrap e encolhimento)
+========================= */
+.acoes {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap; /* Se a tela encolher, os botões descem de linha organizados */
+  gap: 12px;
+  margin-top: 16px;
+  width: 100%;
+}
+
+/* Mantém todos os botões com o mesmo tamanho e impede encolhimento */
+.acoes button {
+  height: 44px;
+  padding: 0 20px;
+  white-space: nowrap;
+  flex-shrink: 0; /* Impede o navegador de esmagar o botão */
+}
+
+/* Campo de seleção do Angular Material */
+.filtro-exportacao {
+  width: 180px;
+  margin-bottom: -1.25em;
+  flex-shrink: 0; /* Impede o select de diminuir de tamanho */
+}
+
+
+
+
+/* =========================
+TABELA
+========================= */
+.tabela-container {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  /* Zera as laterais, mantém 24px embaixo para afastar do footer */
+  margin: 0 0 24px 0; 
+}
+
+.tabela-cabecalho {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tabela-cabecalho h2 {
+  margin: 0;
+  color: #1565c0;
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.tabela-cabecalho span {
+  display: block;
+  margin-top: 5px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* =========================
+SCROLL DA TABELA (Ajustado para Rolagem Vertical)
+========================= */
+.tabela-scroll {
+  width: 100%;
+  max-height: 75vh; /* Ajustado de 120vh para 60vh para caber perfeitamente na janela visível e forçar o scroll interno */
+  overflow-y: auto;   /* Barra vertical automática */
+  overflow-x: auto;   /* Barra horizontal para colunas largas */
+}
+
+.tabela-produtos {
+  width: 100%;
+  min-width: 1400px;
+}
+
+/* =========================
+CABEÇALHO DA TABELA (Ajustado para Sticky/Fixo)
+========================= */
+.tabela-produtos th {
+  background-color: #1565c0 !important; /* Mantém a cor azul mesmo ao rolar */
+  color: white !important;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Evita que as células do cabeçalho fiquem transparentes ao usar sticky */
+.tabela-produtos .mat-mdc-header-cell,
+.tabela-produtos .mat-header-cell {
+  background-color: #1565c0;
+  opacity: 1;
+}
+
+.tabela-produtos td {
+  white-space: nowrap;
+  padding: 12px 16px;
+}
+
+/* =========================
+LINHAS E REALSES CONDICIONAIS (Corrigido para Células)
+========================= */
+.tabela-produtos tr.mat-mdc-row:hover,
+.tabela-produtos tr.mat-row:hover {
+  background-color: #eaf2ff;
+}
+
+.tabela-produtos tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* Ajustado: Fundo vermelho suave apenas para a CÉLULA em prejuízo */
+.tabela-produtos td.linha-prejuizo {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+  font-weight: 600;
+}
+
+/* Adicionado: Fundo verde suave para a CÉLULA com lucro positivo */
+.tabela-produtos td.linha-lucro {
+  background-color: #dcfce7 !important;
+  color: #166534 !important;
+  font-weight: 600;
+}
+
+.valor-monetario {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.simbolo-moeda {
+  font-weight: 500;
+}
+
+/* =========================
+DESTAQUES
+========================= */
+.preco-desconto {
+  color: #1565c0;
+  font-weight: 600;
+}
+
+/* =========================
+ESTILIZAÇÃO DO FOOTER (Novo)
+========================= */
+.footer {
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  background-color: #ffffff;
+  color: #6b7280;
+  border-top: 1px solid #e5e7eb;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =========================
+RESPONSIVIDADE
+========================= */
+@media (max-width: 1200px) {
+  .form-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+
+  .cabecalho {
+    padding: 20px;
+  }
+
+  .filtros-card,
+  .tabela-container {
+    margin: 16px;
+  }
+
+  .form-container {
+    grid-template-columns: 1fr;
+  }
+
+  .acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .acoes button,
+  .filtro-exportacao {
+    width: 100%;
+  }
+
+}
+

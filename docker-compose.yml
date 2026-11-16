@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: ./simulacao_precificacao
+
+    container_name: simulacao_precificacao_backend
+
+    environment:
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./simulacaoPrecificacao
+
+    container_name: simulacao_precificacao_frontend
+
+    ports:
+      - "8086:80"
+
+    depends_on:
+      - backend
+
+    restart: unless-stopped

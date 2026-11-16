@@ -1,0 +1,58 @@
+<div class="layout-container">
+
+  <!-- Controle de abertura e fechamento do menu -->
+  <input
+    type="checkbox"
+    id="menu-toggle"
+    class="menu-toggle-checkbox"
+  >
+
+  <label
+    for="menu-toggle"
+    class="menu-toggle-button"
+    aria-label="Recolher ou expandir menu lateral"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </label>
+
+  <!-- MENU LATERAL -->
+  <aside class="menu-lateral">
+
+    <div class="menu-logo">
+      <h2>SIMULAÇÃO</h2>
+      <span>PRECIFICAÇÃO</span>
+    </div>
+
+    <nav class="menu-navegacao">
+
+      <a href="/simulacao" class="menu-item">
+        <span class="menu-icone">▦</span>
+        <span>Simulação</span>
+      </a>
+
+      <details class="menu-grupo">
+
+        <summary class="menu-item">
+          <span class="menu-icone">▤</span>
+          <span>Dashboard</span>
+          <span class="menu-seta">▾</span>
+        </summary>
+
+        <div class="submenu">
+          <!-- Os dashboards serão adicionados posteriormente. -->
+        </div>
+
+      </details>
+
+    </nav>
+
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudo-principal">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

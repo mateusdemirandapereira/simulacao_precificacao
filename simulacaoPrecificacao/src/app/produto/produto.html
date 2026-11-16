@@ -1,0 +1,327 @@
+<div class="pagina">
+  <!-- Wrapper para agrupar o conteúdo e gerenciar o espaço do footer -->
+  <div class="conteudo-wrapper">
+    
+    <div class="cabecalho">
+      <div>
+        <h1>Simulação de Precificação</h1>
+        <p>Consulte e simule a precificação dos produtos</p>
+      </div>
+    </div>
+
+    <div class="filtros-card">
+      <div class="secao-titulo">
+        <h2>Filtros e parâmetros</h2>
+        <span>Defina os valores para a simulação</span>
+      </div>
+
+      <div class="form-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Loja</mat-label>
+          <input matInput type="number" [(ngModel)]="loja" placeholder="Ex: 1">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Grupo Inicial</mat-label>
+          <input matInput type="number" [(ngModel)]="grupoInicial" placeholder="Ex: 170201">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Grupo Final</mat-label>
+          <input matInput type="number" [(ngModel)]="grupoFinal" placeholder="Ex: 170299">
+        </mat-form-field>		
+
+        <mat-form-field appearance="outline">
+          <mat-label>Margem (%)</mat-label>
+          <input matInput type="number" [(ngModel)]="margemBruta" placeholder="Ex: 20">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Operacional (%)</mat-label>
+          <input matInput type="number" [(ngModel)]="operacional" placeholder="Ex: 20">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Desconto (%)</mat-label>
+          <input matInput type="number" [(ngModel)]="desconto" placeholder="Ex: 10">
+        </mat-form-field>		
+		
+		
+		<mat-form-field appearance="outline">
+			 <mat-label>Código do Produto</mat-label>
+			  <input matInput type="number" [(ngModel)]="codigo" placeholder="Ex: 139626">
+		</mat-form-field>	
+		
+      </div>
+
+	  <div class="acoes">
+
+	    <button mat-raised-button color="primary" (click)="carregarProdutos()">
+	      Atualizar Planilha
+	    </button>
+
+	    <button mat-raised-button color="accent" (click)="buscarProduto()">
+	      Buscar Produto
+	    </button>
+
+	    <button mat-raised-button color="accent" (click)="recalcularPrecificacao()">
+	      Recalcular Precificação
+	    </button>
+
+	    <mat-form-field appearance="outline" class="filtro-exportacao">
+	      <mat-label>Exportar</mat-label>
+
+	      <select matNativeControl [(ngModel)]="filtroExportacao">
+	        <option value="todos">Todos</option>
+	        <option value="positivo">Lucro positivo</option>
+	        <option value="negativo">Lucro negativo</option>
+	      </select>
+	    </mat-form-field>
+
+	    <button mat-raised-button color="primary" (click)="exportarExcel()">
+	      Exportar Excel
+	    </button>
+
+	  </div>
+	  
+    </div>
+
+	<div class="tabela-container">
+
+	  <div class="tabela-cabecalho">
+	    <div>
+	      <h2>Produtos</h2>
+	      <span>Simulação de precificação e análise de margens</span>
+	    </div>
+	  </div>
+
+	  <div class="tabela-scroll">
+
+	    <table mat-table [dataSource]="listaDeProdutos" class="tabela-produtos">
+
+	      <!-- COD -->
+	      <ng-container matColumnDef="codigo">
+	        <th mat-header-cell *matHeaderCellDef>COD</th>
+	        <td mat-cell *matCellDef="let produto">
+	          {{ produto.codigo }}
+	        </td>
+	      </ng-container>
+
+	      <!-- DESC -->
+	      <ng-container matColumnDef="descricao">
+	        <th mat-header-cell *matHeaderCellDef>DESC</th>
+	        <td mat-cell *matCellDef="let produto">
+	          {{ produto.descricao }}
+	        </td>
+	      </ng-container>
+		  
+		  <ng-container matColumnDef="grupo">
+		    <th mat-header-cell *matHeaderCellDef>COD. GRUPO</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.grupo }}
+		    </td>
+		  </ng-container>
+		  
+		  <!-- ESTOQUE -->
+		  <ng-container matColumnDef="estoque">
+		    <th mat-header-cell *matHeaderCellDef>ESTOQUE</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.estoque }}
+		    </td>
+		  </ng-container>		  
+		  
+
+	      <!-- CUSTO -->
+	      <ng-container matColumnDef="custo">
+	        <th mat-header-cell *matHeaderCellDef>CUSTO</th>
+	        <td mat-cell *matCellDef="let produto">
+	          R$ {{ produto.custo | number:'1.2-2' }}
+	        </td>
+	      </ng-container>
+
+	   
+
+	      <!-- PREÇO ORIGINAL -->
+	      <ng-container matColumnDef="precoOriginal">
+	        <th mat-header-cell *matHeaderCellDef>PREÇO ORIGINAL</th>
+	        <td mat-cell *matCellDef="let produto">
+	          R$ {{ produto.precoOriginal | number:'1.2-2' }}
+	        </td>
+	      </ng-container>
+		  
+		  <ng-container matColumnDef="novoPreco">
+		    <th mat-header-cell *matHeaderCellDef>NOVO PREÇO</th>
+		    <td mat-cell *matCellDef="let produto">
+		      R$ {{ produto.novoPreco | number:'1.2-2' }}
+		    </td>
+		  </ng-container>
+		  
+		  <!-- VARIAÇÃO DO PREÇO -->
+		  <ng-container matColumnDef="variacaoPreco">
+		    <th mat-header-cell *matHeaderCellDef>VAR.</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.varPreco | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>			  
+		  
+		  
+		  <!-- MARGEM BRUTA -->
+		  <ng-container matColumnDef="margemBruta">
+		    <th mat-header-cell *matHeaderCellDef>MARGEM BRUTA</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.margemBruta | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>
+		  
+		  <!-- NOVA MARGEM BRUTA -->
+		  <ng-container matColumnDef="novaMargemBruta">
+		    <th mat-header-cell *matHeaderCellDef>NOVA MARGEM BRT</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.novaMargemBruta | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>
+		  
+		  <ng-container matColumnDef="varMargemBruta">
+		    <th mat-header-cell *matHeaderCellDef>VAR MARGEM BRUTA</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.varMargemBruta | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>		  	
+		  
+		  
+		  <!-- DESCONTO -->
+		  <ng-container matColumnDef="desconto">
+		    <th mat-header-cell *matHeaderCellDef>DESC.</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.desconto | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>
+		  
+		  
+		  <ng-container matColumnDef="novoDesconto">
+		    <th mat-header-cell *matHeaderCellDef>NOVO DESC</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.novoDesconto | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>
+		  
+		  
+		  <!-- PREÇO COM DESCONTO -->
+		  <ng-container matColumnDef="precoComDesconto">
+		    <th mat-header-cell *matHeaderCellDef>PREÇO À VISTA</th>
+		    <td mat-cell *matCellDef="let produto" class="preco-desconto">
+		      R$ {{ produto.precoComDesconto | number:'1.2-2' }}
+		    </td>
+		  </ng-container>
+		  
+		  <!-- NOVO PREÇO COM DESCONTO -->
+		  <ng-container matColumnDef="novoPrecoComDesconto">
+		    <th mat-header-cell *matHeaderCellDef>NOVO PREÇO À VISTA</th>
+		    <td mat-cell *matCellDef="let produto">
+		      R$ {{ produto.novoPrecoComDesconto | number:'1.2-2' }}
+		    </td>
+		  </ng-container>	
+		  
+		  
+		  <!-- VARIAÇÃO DO PREÇO COM DESCONTO -->
+		  <ng-container matColumnDef="varPrecoComDesconto">
+		    <th mat-header-cell *matHeaderCellDef>VAR PREÇO À VISTA</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.varPrecoComDesconto | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>
+		  
+		  
+		  <ng-container matColumnDef="lucratividadePorcentagem">
+		    <th mat-header-cell *matHeaderCellDef>MARGEM REAL.</th>
+		    <td mat-cell *matCellDef="let produto" [ngClass]="{'linha-prejuizo': produto.lucratividadePorcentagem < 0, 'linha-lucro': produto.lucratividadePorcentagem >= 0}">
+		      {{ produto.lucratividadePorcentagem | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>
+		  
+		  <ng-container matColumnDef="novaLucratividadePorcentagem">
+		    <th mat-header-cell *matHeaderCellDef>NOVA MARGEM REAL</th>
+		    <td mat-cell *matCellDef="let produto" [ngClass]="{'linha-prejuizo': produto.novaLucratividadePorcentagem < 0, 'linha-lucro': produto.novaLucratividadePorcentagem >= 0}">
+		      {{ produto.novaLucratividadePorcentagem | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>	
+		  
+		  
+		  <!-- MARGEM REAL -->
+		  <ng-container matColumnDef="varMargemReal">
+		    <th mat-header-cell *matHeaderCellDef>VAR MARGEM REAL</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.varMargemReal | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>
+		  
+		  <!-- ICMS -->
+		  <ng-container matColumnDef="icms">
+		    <th mat-header-cell *matHeaderCellDef>ICMS</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.icms | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>
+		  
+		  
+		  <!-- PIS / COFINS -->
+		  <ng-container matColumnDef="pisCofins">
+		    <th mat-header-cell *matHeaderCellDef>PIS / COFINS</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.pisCofins | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>		
+		  
+		  <!-- CSLL / IRPJ -->
+		  <ng-container matColumnDef="csllIrpj">
+		    <th mat-header-cell *matHeaderCellDef>CSLL / IRPJ</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.csllIrpj | number:'1.2-2' }}%
+		     
+		    </td>
+		  </ng-container>
+		  
+		  <!-- OPERACIONAL -->
+		  <ng-container matColumnDef="operacional">
+		    <th mat-header-cell *matHeaderCellDef>OPER.</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.operacional | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>
+
+		  <ng-container matColumnDef="novoOperacional">
+		    <th mat-header-cell *matHeaderCellDef>NOVO OP</th>
+		    <td mat-cell *matCellDef="let produto">
+		      {{ produto.novoOperacional | number:'1.2-2' }}%
+		    </td>
+		  </ng-container>			
+		  
+
+	      <!-- CABEÇALHO FIXO -->
+	      <tr
+	        mat-header-row
+	        *matHeaderRowDef="colunasExibidas; sticky: true">
+	      </tr>
+
+	      <!-- LINHAS DOS PRODUTOS -->
+	      <tr
+	        mat-row
+	        *matRowDef="let row; columns: colunasExibidas;"
+	        [ngClass]="{
+	          'linha-prejuizo': row.lucratividade < 0
+	        }">
+	      </tr>
+
+	    </table>
+
+	  </div>
+
+	</div>
+	
+  </div>
+
+  <!-- Rodapé da Página -->
+  <mat-toolbar class="footer">
+    <span>© 2026 Simulação de Precificação - Todos os direitos reservados.</span>
+  </mat-toolbar>
+</div>
